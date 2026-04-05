@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Appearance } from 'react-native';
+import { Appearance, View } from 'react-native';
 import Modal from 'react-native-modal';
 import PropTypes from 'prop-types';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { storeHelper, findColors } from './utils';
 import WebView from './WebView';
 import styles from './style';
-import { COLOR_WHITE } from './constants';
+import { COLOR_WHITE, SAFE_AREA_BOTTOM_COLOR } from './constants';
 
 const propTypes = {
   isModalVisible: PropTypes.bool.isRequired,
@@ -45,7 +46,7 @@ const ChatWootWidget = ({
   }, []);
   const appColorScheme = Appearance.getColorScheme();
 
-  const { headerBackgroundColor, mainBackgroundColor } = findColors({
+  const { mainBackgroundColor } = findColors({
     colorScheme,
     appColorScheme,
   });
@@ -57,19 +58,23 @@ const ChatWootWidget = ({
       onBackButtonPress={closeModal}
       onBackdropPress={closeModal}
       style={styles.modal}>
-      <SafeAreaView style={[styles.headerView, { backgroundColor: headerBackgroundColor }]} />
-      <SafeAreaView style={[styles.mainView, { backgroundColor: mainBackgroundColor }]}>
-        <WebView
-          websiteToken={websiteToken}
-          cwCookie={cwCookie}
-          user={user}
-          baseUrl={baseUrl}
-          locale={locale}
-          colorScheme={colorScheme}
-          customAttributes={customAttributes}
-          closeModal={closeModal}
-        />
-      </SafeAreaView>
+      <SafeAreaProvider style={styles.safeAreaProvider}>
+        <SafeAreaView edges={['top']} style={[styles.headerView, { backgroundColor: COLOR_WHITE }]} />
+        <SafeAreaView edges={['bottom']} style={[styles.mainView, { backgroundColor: SAFE_AREA_BOTTOM_COLOR }]}>
+          <View style={[styles.contentView, { backgroundColor: mainBackgroundColor }]}>
+            <WebView
+              websiteToken={websiteToken}
+              cwCookie={cwCookie}
+              user={user}
+              baseUrl={baseUrl}
+              locale={locale}
+              colorScheme={colorScheme}
+              customAttributes={customAttributes}
+              closeModal={closeModal}
+            />
+          </View>
+        </SafeAreaView>
+      </SafeAreaProvider>
     </Modal>
   );
 };

@@ -74,7 +74,7 @@ const WebViewComponent = ({
   const renderLoadingComponent = () => {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#1f93ff" />
+        <ActivityIndicator size="large" color="#5163ff" />
         <Text style={styles.loadingText}>Loading...</Text>
       </View>
     );

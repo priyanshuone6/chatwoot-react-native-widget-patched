@@ -6,7 +6,13 @@ const styles = StyleSheet.create({
     margin: 0,
     paddingVertical: 0,
   },
+  safeAreaProvider: {
+    flex: 1,
+  },
   mainView: {
+    flex: 1,
+  },
+  contentView: {
     flex: 1,
   },
   headerView: {
