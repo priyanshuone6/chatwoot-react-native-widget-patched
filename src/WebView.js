@@ -1,23 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { StyleSheet, Linking, View, ActivityIndicator, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
-import PropTypes from 'prop-types';
 import { isJsonString, storeHelper, generateScripts, getMessage } from './utils';
-const propTypes = {
-  websiteToken: PropTypes.string.isRequired,
-  baseUrl: PropTypes.string.isRequired,
-  cwCookie: PropTypes.string,
-  colorScheme: PropTypes.oneOf(['light', 'dark', 'auto']),
-  user: PropTypes.shape({
-    name: PropTypes.string,
-    avatar_url: PropTypes.string,
-    email: PropTypes.string,
-    identifier_hash: PropTypes.string,
-  }),
-  locale: PropTypes.string,
-  customAttributes: PropTypes.shape({}),
-  closeModal: PropTypes.func,
-};
 
 const WebViewComponent = ({
   baseUrl,
@@ -113,8 +97,8 @@ const WebViewComponent = ({
         onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
         onNavigationStateChange={handleWebViewNavigationStateChange}
         onLoadStart={() => setLoading(true)}
-        onLoadProgress={() => setLoading(true)}
         onLoadEnd={() => setLoading(false)}
+        onError={() => setLoading(false)}
         scrollEnabled
       />
       {loading && renderLoadingComponent()}
@@ -153,5 +137,4 @@ const styles = StyleSheet.create({
     color: '#666',
   },
 });
-WebViewComponent.propTypes = propTypes;
 export default WebViewComponent;
